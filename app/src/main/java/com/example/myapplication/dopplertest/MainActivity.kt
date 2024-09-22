@@ -41,7 +41,8 @@ class MainActivity : ComponentActivity() {
                     dopplerText = remember {
                         mutableStateListOf<String>()
                     }
-                    ShowDopplerText(dopplerText)
+                    // ShowDopplerText(dopplerText)
+                    PlayVideoCompose()
                 }
             }
         }
