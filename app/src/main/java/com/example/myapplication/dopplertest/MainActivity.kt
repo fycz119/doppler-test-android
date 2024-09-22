@@ -29,7 +29,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lateinit var dopplerText: SnapshotStateList<String>;
+        mDoppler = Doppler();
+        mDoppler.start()
+
         enableEdgeToEdge()
         setContent {
             DopplerTestTheme {
@@ -38,64 +40,11 @@ class MainActivity : ComponentActivity() {
                         name = "Android",
                         modifier = Modifier.padding(innerPadding)
                     )
-                    dopplerText = remember {
-                        mutableStateListOf<String>()
-                    }
                     // ShowDopplerText(dopplerText)
-                    PlayVideoCompose()
+                    PlayVideoCompose(mDoppler)
                 }
             }
         }
-
-
-        mDoppler = Doppler();
-        mDoppler.start()
-        mDoppler.setOnGestureListener(object : Doppler.OnGestureListener{
-            override fun onPush() {
-                Log.d(TAG, "onPush: ");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    dopplerText.add(LocalDateTime.now().toString() + "onPush")
-                };
-            }
-
-            override fun onPull() {
-                Log.d(TAG, "onPull: ");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    dopplerText.add(LocalDateTime.now().toString() + "onPull")
-                };
-
-            }
-
-            override fun onTap() {
-                Log.d(TAG, "onTap: ");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    dopplerText.add(LocalDateTime.now().toString() + "onTap")
-                };
-            }
-
-            override fun onDoubleTap() {
-                Log.d(TAG, "onDoubleTap: ");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    dopplerText.add(LocalDateTime.now().toString() + "onDoubleTap")
-                };
-            }
-
-            override fun onNothing() {
-                // Log.d(TAG, "onNothing: ");
-            }
-
-        });
-        mDoppler.setOnReadCallback(object : Doppler.OnReadCallback{
-            override fun onBandwidthRead(leftBandwidth: Int, rightBandwidth: Int) {
-                // Log.d(TAG, "leftBandwidth: $leftBandwidth");
-                // Log.d(TAG, "rightBandwidth: $rightBandwidth");
-            }
-
-            override fun onBinsRead(bins: DoubleArray?) {
-                // Log.d(TAG, "bins: $bins");
-            }
-
-        })
     }
 
     override fun onStop() {
