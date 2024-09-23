@@ -51,6 +51,11 @@ class MainActivity : ComponentActivity() {
         super.onStop()
         mDoppler.pause();
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+    }
 }
 
 @Composable

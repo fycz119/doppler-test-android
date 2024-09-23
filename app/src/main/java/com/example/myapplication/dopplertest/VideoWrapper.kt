@@ -32,12 +32,13 @@ fun PlayVideoCompose(mDoppler: Doppler, modifier: Modifier = Modifier) {
     }
     val exoPlayer = remember {
         ExoPlayer.Builder(context).build().apply {
-            setMediaItem(MediaItem.fromUri("android.resource://" + context.packageName + '/' + R.raw.car_drive))
+            setMediaItem(MediaItem.fromUri("android.resource://" + context.packageName + '/' + R.raw.rush_e))
             prepare()
             playWhenReady = true
             repeatMode = Player.REPEAT_MODE_ONE
         }
     }
+    exoPlayer.volume = 0f
     PlayerSurface(
         player = exoPlayer,
         surfaceType = SURFACE_TYPE_SURFACE_VIEW,
@@ -52,6 +53,9 @@ fun PlayVideoCompose(mDoppler: Doppler, modifier: Modifier = Modifier) {
             };
             gestureState = "onPush"
             setVolume(context, AudioManager.ADJUST_RAISE)
+            Toast.makeText(context, "currentPosition: " + exoPlayer.currentPosition + exoPlayer.isCurrentMediaItemSeekable, Toast.LENGTH_SHORT).show()
+            exoPlayer.seekTo(exoPlayer.currentMediaItemIndex, exoPlayer.currentPosition + 1500)
+
         }
 
         override fun onPull() {
